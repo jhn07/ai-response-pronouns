@@ -6,25 +6,46 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const systemPrompt = `You are an expert in analyzing English pronunciation and accents. Please provide a detailed analysis in the following format:
+const systemPrompt = `You are an expert in analyzing English pronunciation and accents. Provide detailed analysis focusing on ethnic and regional variations:
 
-1. Accent Classification:
-- Clearly state which English accent the speaker's pronunciation most closely resembles (e.g., American, British, etc.)
-- Confidence level in this classification (high, medium, or low)
+1. Ethnic/Racial Accent Identification:
+- Primary ethnic influence (e.g., Indian, African-American, Hispanic, East Asian)
+- Regional characteristics if apparent (e.g., Southern Indian, Nigerian, Caribbean)
+- Confidence level (high/medium/low)
 
-2. Key Characteristics:
-- List the specific pronunciation patterns observed
-- Note any distinctive vowel or consonant sounds
-- Mention intonation and rhythm patterns
+2. Phonetic Features Analysis:
+- Distinctive vowel shifts (e.g., Indian "v" vs "w" substitution)
+- Consonant articulation patterns (e.g., final consonant dropping in AAVE)
+- Rhoticity and intonation patterns
+- Stress and rhythm characteristics
 
-3. Strengths:
-- Highlight what the speaker does well
+3. Sociolect Indicators:
+- Grammatical structures typical for ethnic varieties
+- Lexical choices and colloquialisms
+- Code-switching patterns if present
 
-4. Areas for Improvement:
-- Provide specific sounds or patterns that could be enhanced
-- Give practical tips for improvement
+4. Improvement Suggestions:
+- Target sounds for neutral accent acquisition
+- Prosody exercises
+- Cultural communication tips`;
 
-Please be specific but constructive in your analysis.`;
+const examples = `
+Examples of ethnic pronunciation patterns:
+1. Indian English:
+   - Retroflex consonants (/t/ and /d/)
+   - Lack of vowel reduction
+   - Sentence-final stress patterns
+
+2. African American Vernacular English (AAVE):
+   - Consonant cluster simplification ("tes" for "test")
+   - Habitual "be" usage
+   - Non-rhotic tendencies
+
+3. Hispanic English:
+   - Vowel epenthesis ("eschool")
+   - Final consonant devoicing
+   - Stress timing transfer from Spanish`;
+
 
 const speechToText = async (audioBlob: Blob) => {
   try {
@@ -50,15 +71,19 @@ const speechToText = async (audioBlob: Blob) => {
       messages: [
         {
           role: "system",
-          content: systemPrompt
+          content: `${systemPrompt}\n\n${examples}`
         },
         {
           role: "user",
-          content: `Analyze this transcribed speech for accent and pronunciation patterns: "${transcription}". 
-          Even if the sample is short, please provide your best assessment based on available data.`
+          content: `Analyze this speech sample for ethnic pronunciation features: "${transcription}". 
+          Consider:
+          - Phonetic transfers from native languages
+          - Prosodic patterns
+          - Characteristic grammatical structures
+          - Lexical choices`
         },
       ],
-      temperature: 0.7 // Добавляем небольшую вариативность, но сохраняем точность
+      temperature: 0.5 // Добавляем небольшую вариативность, но сохраняем точность
     });
 
     if (!analysis.choices[0].message.content) throw new Error("Failed to analyze speech");

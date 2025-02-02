@@ -164,7 +164,9 @@ export default function Home() {
             {/* Analysis Result */}
             {analysisResult && (
               <div className="text-center mt-4 p-6 bg-green-50 rounded-lg max-w-3xl">
-                <h3 className="text-xl font-semibold mb-4 text-green-800">Analysis Result:</h3>
+                <h3 className="text-xl font-semibold mb-4 text-green-800">
+                  Pronunciation Analysis:
+                </h3>
                 <div className="text-left prose prose-green max-w-none">
                   {analysisResult.split('\n').map((paragraph, index) => {
                     // Обработка заголовков (строк с **)
@@ -250,12 +252,18 @@ export default function Home() {
         </div>
       </Card>
       <CustomAbsoluteCard
-        className="top-10 right-10 w-[300px]"
+        className={cn(
+          "top-10 right-10 w-[300px] transition-all duration-500",
+          isRecording || isReadyToAnalyze ? "opacity-0 translate-x-10 pointer-events-none" : "opacity-100"
+        )}
         title="Features"
         descriptions={features}
       />
       <CustomAbsoluteCard
-        className="bottom-10 left-10 w-[300px]"
+        className={cn(
+          "bottom-10 left-10 w-[300px] transition-all duration-500",
+          isRecording || isReadyToAnalyze ? "opacity-0 translate-x-10 pointer-events-none" : "opacity-100"
+        )}
         title="Benefits"
         descriptions={benefits}
       />
