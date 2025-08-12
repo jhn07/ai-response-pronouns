@@ -17,7 +17,7 @@ const CustomButton = ({
       variant="ghost"
       size="icon"
       className={cn(
-        "h-8 w-8 text-blue-600 hover:text-blue-800",
+        "flex items-center justify-center hover:scale-105 transition-all duration-200",
         className
       )}
       onClick={onClick}
@@ -29,7 +29,7 @@ const CustomButton = ({
         isPlaying ? (
           <PauseIcon className="h-4 w-4" />
         ) : (
-          <PlayIcon className="h-4 w-4" />
+          <PlayIcon className="h-4 w-4 ml-0.5" />
         )
       )}
     </Button>
@@ -110,45 +110,50 @@ export const CustomAudioPlayer = ({ audioUrl }: CustomAudioPlayerProps) => {
   };
 
   return (
-    <div className="w-full max-w-md bg-gray-100 rounded-lg shadow-sm">
+    <div className="w-full max-w-lg mx-auto bg-white rounded-2xl shadow-lg border border-gray-100">
       <audio ref={audioRef} src={audioUrl} />
-      <div className="flex flex-col p-4 gap-4">
-        {/* Верхняя панель с кнопками управления и временем */}
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <CustomButton
-              isPlaying={isPlaying}
-              onClick={togglePlay}
-            />
-            <CustomButton
-              icon={<RotateCwIcon className="h-4 w-4" />}
-              onClick={resetAudio}
-            />
-          </div>
-          <div className="text-sm font-medium text-muted-foreground">
-            {formatTime(currentTime)} / {formatTime(duration)}
+      <div className="flex flex-col p-6 gap-6">
+        
+        {/* Главный прогресс-бар */}
+        <div className="space-y-3">
+          <Slider
+            value={[currentTime]}
+            max={duration}
+            step={0.1}
+            onValueChange={handleTimeChange}
+            className="w-full [&>span:first-child]:h-2 [&>span:first-child]:bg-gradient-to-r [&>span:first-child]:from-blue-500 [&>span:first-child]:to-indigo-500 [&_[role=slider]]:w-5 [&_[role=slider]]:h-5 [&_[role=slider]]:border-4 [&_[role=slider]]:border-white [&_[role=slider]]:bg-blue-600 [&_[role=slider]]:shadow-lg"
+          />
+          <div className="flex items-center justify-between text-sm text-gray-500 px-1">
+            <span className="font-medium">{formatTime(currentTime)}</span>
+            <span>-{formatTime(duration - currentTime)}</span>
           </div>
         </div>
 
-        {/* Слайдер времени */}
-        <Slider
-          value={[currentTime]}
-          max={duration}
-          step={0.1}
-          onValueChange={handleTimeChange}
-          className="w-full"
-        />
-
-        {/* Регулятор громкости */}
-        <div className="flex items-center gap-2">
-          <Volume2Icon className="h-4 w-4 text-muted-foreground" />
-          <Slider
-            value={[volume]}
-            max={1}
-            step={0.01}
-            onValueChange={handleVolumeChange}
-            className="w-24"
+        {/* Панель управления */}
+        <div className="flex items-center justify-center gap-4">
+          <CustomButton
+            icon={<RotateCwIcon className="h-5 w-5" />}
+            onClick={resetAudio}
+            className="w-12 h-12 bg-gray-50 hover:bg-gray-100 rounded-full transition-all duration-200"
           />
+          
+          <CustomButton
+            isPlaying={isPlaying}
+            onClick={togglePlay}
+            className="w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 [&_svg]:w-6 [&_svg]:h-6"
+          />
+          
+          {/* Регулятор громкости */}
+          <div className="flex items-center gap-3 w-20">
+            <Volume2Icon className="h-5 w-5 text-gray-400 flex-shrink-0" />
+            <Slider
+              value={[volume]}
+              max={1}
+              step={0.01}
+              onValueChange={handleVolumeChange}
+              className="flex-1 [&>span:first-child]:h-1.5 [&>span:first-child]:bg-gray-200 [&_[role=slider]]:w-3 [&_[role=slider]]:h-3 [&_[role=slider]]:bg-gray-400"
+            />
+          </div>
         </div>
       </div>
     </div>
