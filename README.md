@@ -2,6 +2,20 @@
 
 An AI-powered Next.js application that analyzes English pronunciation using OpenAI's Whisper and GPT-4 APIs. Record your speech, get transcription, and receive detailed pronunciation feedback.
 
+## Screenshots
+
+### Recording Interface
+![Recording Interface](images/pronunciation-record.png)
+*Clean and intuitive recording interface with sample text for pronunciation practice*
+
+### Audio Analysis
+![Audio Analysis](images/pronunciation-preview.png)
+*Custom audio player with analysis controls and feedback options*
+
+### AI Analysis Results
+![Analysis Results](images/pronunciation-analyze.png)
+*Detailed pronunciation analysis with AI-powered feedback and recommendations*
+
 ## Features
 
 - 🎤 **Voice Recording**: Browser-based audio recording with cross-browser compatibility
