@@ -5,11 +5,11 @@ An AI-powered Next.js application that analyzes English pronunciation using Open
 ## Screenshots
 
 ### Recording Interface
-![Recording Interface](images/pronunciation-record.png)
+![Recording Interface](images/pronunciation-preview.png)
 *Clean and intuitive recording interface with sample text for pronunciation practice*
 
 ### Audio Analysis
-![Audio Analysis](images/pronunciation-preview.png)
+![Audio Analysis](images/pronunciation-record.png)
 *Custom audio player with analysis controls and feedback options*
 
 ### AI Analysis Results
